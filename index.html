@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>LeadDesk CRM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f8;--sf:#fff;--tx:#14202b;--mu:#667583;--bd:#dde3e9;--ac:#0b7a75;--ac2:#e6f4f3;--rd:#fdeaea;--rdt:#b3261e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e151b;--sf:#17212a;--tx:#e8eef3;--mu:#92a1ae;--bd:#2a3844;--ac:#3cc2ba;--ac2:#12302f;--rd:#3a1b1a;--rdt:#ff8f87}}
+:root[data-theme="dark"]{--bg:#0e151b;--sf:#17212a;--tx:#e8eef3;--mu:#92a1ae;--bd:#2a3844;--ac:#3cc2ba;--ac2:#12302f;--rd:#3a1b1a;--rdt:#ff8f87}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 'Plus Jakarta Sans',system-ui,sans-serif}
+button,select,input,textarea{font:inherit;color:inherit}
+.shell{display:flex;min-height:100vh}.side{width:220px;background:var(--sf);border-right:1px solid var(--bd);padding:16px 12px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.brand{font-weight:700;font-size:18px;padding:4px 10px 14px}.brand small{display:block;font-weight:500;font-size:12px;color:var(--mu)}
+.nav{display:flex;justify-content:space-between;align-items:center;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;cursor:pointer;color:var(--mu);font-weight:500}
+.nav:hover{background:var(--bg)}.nav.on{background:var(--ac2);color:var(--ac);font-weight:600}
+.badge{background:var(--rdt);color:#fff;border-radius:10px;font-size:11px;padding:0 6px}
+.main{flex:1;min-width:0;padding:20px 24px;max-width:1200px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:22px;margin:0}h2{font-size:15px;margin:0 0 10px}
+.btn{border:1px solid var(--bd);background:var(--sf);padding:7px 13px;border-radius:8px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--ac)}.btn.p{background:var(--ac);border-color:var(--ac);color:#fff}.btn.d{color:var(--rdt);border-color:var(--rdt)}.btn.s{padding:3px 9px;font-size:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.stat b{display:block;font-size:24px;font-weight:700}.stat span{color:var(--mu);font-size:12px}
+.emp b{font-size:14px}.emp div{display:flex;justify-content:space-between;color:var(--mu);font-size:12px;margin-top:2px}.emp div i{font-style:normal;color:var(--tx);font-weight:600}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+select,input,textarea{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;min-width:0}
+select:disabled{opacity:.45}
+.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;background:var(--sf);border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap}th{font-size:12px;color:var(--mu);font-weight:600;background:var(--bg)}
+tr.red td{background:var(--rd)}tr.red td:first-child{box-shadow:inset 3px 0 var(--rdt)}
+.chip{padding:2px 9px;border-radius:10px;font-size:12px;font-weight:600;background:var(--bg)}
+.c-Closed{background:#dff3e4;color:#17692d}.c-Connected{background:#dde9fb;color:#1c4fa3}.c-Not-Responding{background:#eceff2;color:#53606b}.c-Followup{background:#fdf0cf;color:#8a5a00}.c-Lost{background:#f6dcec;color:#8e2362}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--rd);color:var(--rdt);border-radius:10px;padding:10px 14px;margin-bottom:14px}
+.bar b{font-weight:700}.sp{flex:1}
+.ov{position:fixed;inset:0;background:rgba(10,18,24,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.md{background:var(--sf);border-radius:12px;padding:20px;width:100%;max-width:460px;max-height:90vh;overflow:auto}
+.md label{display:block;font-weight:600;font-size:12px;margin:10px 0 4px}.md input,.md select,.md textarea{width:100%}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.login{max-width:360px;margin:12vh auto;padding:0 16px}.tabs{display:flex;gap:6px;margin:12px 0}.tabs .btn{flex:1}.tabs .on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.toast{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:30;max-width:300px}
+.mu{color:var(--mu)}.err{color:var(--rdt);font-size:12px}.msg{padding:10px 0;border-bottom:1px solid var(--bd)}
+@media(max-width:760px){.shell{flex-direction:column}.side{width:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--bd)}.brand{display:none}.main{padding:14px}.nav{white-space:nowrap}}
+:root{--bg:#eef2f6;--ac:#0a8f87;--ac2:#e0f3f1;--am:#ffb703;--sh:0 1px 2px rgba(13,27,42,.06),0 8px 24px -12px rgba(13,27,42,.18)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1219;--ac:#2fd3c8;--sh:0 8px 24px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#0a1219;--ac:#2fd3c8;--sh:0 8px 24px -12px rgba(0,0,0,.6)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-40px) scale(1.15)}}
+@keyframes toast{0%{opacity:0;transform:translateX(40px)}8%,88%{opacity:1;transform:none}100%{opacity:0;transform:translateX(40px)}}
+@keyframes beat{0%,100%{box-shadow:inset 3px 0 var(--rdt)}50%{box-shadow:inset 6px 0 var(--rdt)}}
+@keyframes sheen{to{transform:translateX(120%)}}
+body{transition:background .3s}
+body:has(.login){background:#081521;overflow:hidden}
+body:has(.login)::before,body:has(.login)::after{content:"";position:fixed;width:46vmax;height:46vmax;border-radius:50%;filter:blur(90px);opacity:.55;animation:drift 14s ease-in-out infinite;z-index:0}
+body:has(.login)::before{background:#0fb5aa;left:-12vmax;top:-14vmax}
+body:has(.login)::after{background:#ff9f1c;right:-16vmax;bottom:-20vmax;animation-delay:-7s;opacity:.35}
+.login{position:relative;z-index:1;background:rgba(255,255,255,.08);backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:28px;color:#fff;animation:pop .7s cubic-bezier(.2,.9,.3,1.2) both;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+.login h1{display:flex;align-items:center;gap:12px;font-size:26px;letter-spacing:-.02em}
+.login h1::before,.brand::before{content:"L";display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2fd3c8,#0a8f87 60%,#ffb703);color:#06202a;font-weight:800;font-size:19px;box-shadow:0 6px 18px -4px rgba(47,211,200,.6)}
+.login .mu{color:#a9bfd0}.login .card{background:rgba(255,255,255,.95);color:#14202b;border:0;animation:up .7s .2s both}
+.login .card .mu{color:#667583}.login input{background:#f4f7fa;color:#14202b}
+.login .tabs .btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2)}.login .tabs .on{background:#fff;color:#0a4f4b}
+.side{background:linear-gradient(180deg,#0a1a2a,#0e2f3f);border:0;color:#fff;gap:3px;box-shadow:6px 0 30px -18px rgba(0,0,0,.5)}
+.brand{display:grid;grid-template-columns:38px 1fr;column-gap:11px;align-items:center;font-size:17px;letter-spacing:-.01em;padding-bottom:20px}.brand::before{grid-row:span 2}.brand small{color:#8fb0c4}
+.nav{position:relative;color:#9db8ca;transition:background .2s,color .2s,transform .2s,padding .2s}
+.nav:hover{background:rgba(255,255,255,.07);color:#fff;transform:translateX(3px)}
+.nav.on{background:rgba(47,211,200,.14);color:#fff}
+.nav::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:3px;border-radius:3px;background:var(--am);transform:scaleY(0);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.nav.on::before{transform:scaleY(1)}.badge{animation:beat 1.6s infinite;background:var(--am);color:#3a2800;font-weight:700}
+.main{animation:fade .35s both}
+h1{font-size:26px;letter-spacing:-.02em}
+.btn{transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px -8px rgba(10,143,135,.5)}.btn:active{transform:scale(.96)}
+.btn.p{position:relative;overflow:hidden;background:linear-gradient(135deg,#0fb5aa,#0a8f87)}
+.btn.p::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.4),transparent 70%);transform:translateX(-120%)}.btn.p:hover::after{animation:sheen .7s}
+.card{box-shadow:var(--sh);transition:transform .25s,box-shadow .25s}
+.stat{border-top:3px solid var(--ac)}.stat:nth-child(2){border-top-color:#2e9e57}.stat:nth-child(3){border-top-color:#3b78d8}.stat:nth-child(4){border-top-color:#8a97a3}.stat:nth-child(5){border-top-color:var(--am)}.stat:nth-child(6){border-top-color:#d0488b}
+.stat b{font-size:28px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat:hover,.emp:hover{transform:translateY(-4px);box-shadow:0 18px 30px -16px rgba(13,27,42,.35)}
+.enter .stat,.enter .emp,.enter .bar,.enter .card{animation:up .55s cubic-bezier(.2,.8,.3,1) both}
+.enter .grid>*:nth-child(2){animation-delay:.06s}.enter .grid>*:nth-child(3){animation-delay:.12s}.enter .grid>*:nth-child(4){animation-delay:.18s}.enter .grid>*:nth-child(5){animation-delay:.24s}.enter .grid>*:nth-child(6){animation-delay:.3s}
+.enter tr{animation:up .45s cubic-bezier(.2,.8,.3,1) both}.enter tr:nth-child(2){animation-delay:.2s}.enter tr:nth-child(3){animation-delay:.25s}.enter tr:nth-child(4){animation-delay:.3s}.enter tr:nth-child(5){animation-delay:.35s}.enter tr:nth-child(n+6){animation-delay:.4s}
+table{box-shadow:var(--sh);border-radius:12px}tr{transition:background .15s}tbody tr:hover td,tr:hover td{background:var(--ac2)}tr.red:hover td{background:var(--rd)}
+tr.red td:first-child{animation:beat 2.4s infinite}
+th{letter-spacing:.01em}.chip{display:inline-flex;align-items:center;gap:6px}.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 22%,transparent)}
+input,select,textarea{transition:border-color .2s,box-shadow .2s}
+.bar{border:1px solid color-mix(in srgb,var(--rdt) 30%,transparent)}
+.ov{animation:fade .25s both}.md{animation:pop .4s cubic-bezier(.2,.9,.3,1.25) both;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);border-radius:16px}
+.toast{animation:toast 2.8s both;background:linear-gradient(135deg,#0e2f3f,#0a8f87);color:#fff;box-shadow:0 14px 30px -10px rgba(0,0,0,.5)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:760px){.side{background:#0a1a2a}.nav:hover{transform:none}h1{font-size:21px}}
+
+.main{max-width:1320px;margin:0 auto;padding:30px 48px;width:100%}.shell{align-items:flex-start}.side{position:sticky;top:0;height:100vh;width:240px}
+.filters select,.filters input{flex:0 1 190px}.fl{display:block;margin-top:12px;text-align:center;font-size:13px;color:#0a6f69;font-weight:600;text-decoration:none}
+@media(min-width:1500px){.main{padding:36px 64px}.grid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}}
+@media(max-width:1000px){.main{padding:22px 24px}.side{width:200px}}
+@media(max-width:760px){.shell{flex-direction:column;align-items:stretch}.main{padding:16px 14px 104px}
+.side{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;width:auto;flex-direction:row;justify-content:flex-start;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:15;border-radius:18px 18px 0 0;overflow-x:auto;gap:2px}
+.nav{flex-direction:column;gap:2px;font-size:11px;padding:7px 12px;text-align:center;white-space:nowrap}.nav::before{display:none}.badge{margin-left:4px}
+.grid{grid-template-columns:repeat(2,1fr)}.filters select,.filters input{flex:1 1 44%}.top .btn{flex:1}
+.ov{align-items:flex-end;padding:0}.md{max-width:none;border-radius:20px 20px 0 0;animation:up .35s both;max-height:92vh}
+.tb thead{display:none}.tb,.tb tbody,.tb tr,.tb td{display:block;width:100%}.wrap{overflow:visible}.tb{background:none;border:0;box-shadow:none}
+.tb tr{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:10px 14px;margin-bottom:10px;box-shadow:var(--sh)}
+.tb td{border:0;padding:4px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;white-space:normal;text-align:right}
+.tb td[data-l]::before{content:attr(data-l);color:var(--mu);font-size:12px;text-align:left}.tb td.nm{font-weight:700;font-size:15px}
+.tb td.ac{flex-wrap:wrap;justify-content:flex-start;gap:6px;padding-top:8px}.tb tr:hover td{background:none}
+.tb tr.red{background:var(--rd);border-left:4px solid var(--rdt)}.tb tr.red td,.tb tr.red:hover td{background:none}.tb td.cb{padding:0}}
+</style></head><body><div id="app"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCbKIxNo6hX4S-b9jpnC9WLXv9KFZn-VZE",
+  authDomain: "leaddesk-crm-cadf4.firebaseapp.com",
+  projectId: "leaddesk-crm-cadf4",
+  storageBucket: "leaddesk-crm-cadf4.firebasestorage.app",
+  messagingSenderId: "540805486271",
+  appId: "1:540805486271:web:c0dfce0141f239a0e0980a"
+};
+</script>
+<script>
+const ST=['Closed','Connected','Not Responding','Followup','Lost'];
+const CH={marketing:'Marketing',offline:'Manual Offline',social:'Social Media'};
+const DEF={marketing:['Ads Leads','WhatsApp Marketing'],offline:['Social Media','Ads'],social:['Instagram','Facebook']};
+let S={emps:[],leads:[],src:JSON.parse(JSON.stringify(DEF)),msgs:[],imports:[]},me=null,view='dash',F={},wantRole='owner',chk=null,flash='',U=[],auth,db;
+function save(){}
+const gid=()=>Date.now()*1000+Math.floor(Math.random()*1000);
+const fput=(c,o)=>db.collection(c).doc(String(o.id)).set(o).catch(e=>toast(e.message));
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const isO=()=>me&&me.role=='owner',en=u=>u&&me&&u==me.u?me.name:(S.emps.find(e=>e.u==u)||{}).name||'Unassigned';
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2800)}
+function modal(h){closeM();const d=document.createElement('div');d.className='ov';d.id='ov';d.innerHTML='<div class="md">'+h+'</div>';document.body.appendChild(d)}
+function closeM(){const o=$('#ov');if(o)o.remove()}
+function inR(ts){const t=F.t||'all',n=new Date(),s0=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();
+if(t=='all')return 1;if(t=='today')return ts>=s0;if(t=='yesterday')return ts>=s0-864e5&&ts<s0;if(t=='week')return ts>=s0-6*864e5;
+if(t=='month')return ts>=new Date(n.getFullYear(),n.getMonth(),1).getTime();
+if(t=='lmonth')return ts>=new Date(n.getFullYear(),n.getMonth()-1,1).getTime()&&ts<new Date(n.getFullYear(),n.getMonth(),1).getTime();
+if(t=='custom'){const a=F.cf?new Date(F.cf).getTime():0,b=F.ct?new Date(F.ct).getTime()+864e5:1e15;return ts>=a&&ts<b}return 1}
+const incomplete=l=>!l.status||l.rec!='Yes';
+function mine(){return S.leads.filter(l=>isO()||l.emp==me.u)}
+function filt(base,ignoreCh){return base.filter(l=>inR(l.at)&&(!F.s||l.status==F.s)&&(!F.e||l.emp==F.e)&&(ignoreCh||!F.c||l.ch==F.c)&&(!F.f||l.from==F.f)&&
+(!F.x||(F.x=='nc'?(l.status=='Not Responding'||!l.status):l.rec!='Yes')))}
+function setF(k,v){F[k]=v;if(k=='c')F.f='';render()}
+function fbar(chFixed){const o=(a,v,all)=>`<option value="">${all}</option>`+a.map(x=>`<option value="${esc(x[0])}"${v==x[0]?' selected':''}>${esc(x[1])}</option>`).join('');
+const ch=chFixed||F.c,fr=ch?S.src[ch].map(x=>[x,x]):[];
+return `<div class="filters"><select onchange="setF('t',this.value)">${[['all','All time'],['today','Today'],['yesterday','Yesterday'],['week','Last week'],['month','This month'],['lmonth','Last month'],['custom','Custom']].map(x=>`<option value="${x[0]}"${(F.t||'all')==x[0]?' selected':''}>${x[1]}</option>`).join('')}</select>
+${F.t=='custom'?`<input type="date" value="${F.cf||''}" onchange="setF('cf',this.value)"><input type="date" value="${F.ct||''}" onchange="setF('ct',this.value)">`:''}
+<select onchange="setF('s',this.value)">${o(ST.map(x=>[x,x]),F.s,'Lead status')}</select>
+${isO()?`<select onchange="setF('e',this.value)">${o(S.emps.map(e=>[e.u,e.name]),F.e,'All employees')}</select>`:''}
+${chFixed?'':`<select onchange="setF('c',this.value)">${o(Object.entries(CH),F.c,'Leads from')}</select>`}
+<select ${ch?'':'disabled'} onchange="setF('f',this.value)">${o(fr,F.f,'Leads from 2')}</select>
+${isO()?`<select onchange="setF('x',this.value)">${o([['nc','Not connected'],['norec','No recording']],F.x,'Status 2')}</select>`:''}</div>`}
+const chip=s=>s?`<span class="chip c-${s.replace(' ','-')}">${s}</span>`:'<span class="chip">No status</span>';
+function table(ls){if(!ls.length)return '<div class="card mu">No leads match these filters. Clear a filter or add a lead.</div>';const o=isO();
+return `<div class="wrap"><table class="tb"><thead><tr>${o?'<th><input type="checkbox" onchange="document.querySelectorAll(\'.ck\').forEach(c=>c.checked=this.checked)"></th>':''}<th>Name</th><th>Phone</th><th>Email</th><th>Status</th>${o?'<th>Employee</th><th>Source</th>':''}<th></th></tr></thead><tbody>
+${ls.map(l=>`<tr class="${incomplete(l)?'red':''}">${o?`<td class="cb"><input type="checkbox" class="ck" value="${l.id}"></td>`:''}<td data-l="Name" class="nm">${esc(l.name)}</td><td data-l="Phone">${esc(l.phone)}</td><td data-l="Email">${esc(l.mail)||'-'}</td><td data-l="Status">${chip(l.status)}</td>${o?`<td data-l="Employee">${esc(en(l.emp))}</td><td data-l="Source">${CH[l.ch]} / ${esc(l.from)}</td>`:''}
+<td class="ac"><button class="btn s" onclick="info(${l.id})">More info</button>${o?` <button class="btn s" onclick="assign([${l.id}])">Assign</button> <button class="btn s" onclick="notifyLead(${l.id})">Send notification</button>`:` <button class="btn s" onclick="editL(${l.id})">Update</button>`}</td></tr>`).join('')}</tbody></table></div>`}
+function stats(ls){const c=s=>ls.filter(l=>l.status==s).length;return {t:ls.length,Closed:c('Closed'),Connected:c('Connected'),NR:c('Not Responding'),Followup:c('Followup'),Lost:c('Lost'),rev:ls.reduce((a,l)=>a+(l.status=='Closed'?+l.amount||0:0),0)}}
+function login(role,err){document.getElementById('app').innerHTML=`<div class="login"><h1>LeadDesk CRM</h1><p class="mu">Sign in to see your leads.</p>
+<div class="tabs"><button class="btn ${role=='owner'?'on':''}" onclick="login('owner')">Owner login</button><button class="btn ${role=='emp'?'on':''}" onclick="login('emp')">Employee login</button></div>
+<div class="card"><label>Username</label><input id="lu" style="width:100%" autocomplete="username"><label style="display:block;margin-top:10px">Password</label><input id="lp" type="password" style="width:100%" autocomplete="current-password">
+<div class="err" style="margin-top:6px">${err||''}</div><button class="btn p" style="width:100%;margin-top:10px" onclick="doLogin('${role}')">Sign in</button>
+</div></div>`;
+$('#lp').onkeydown=e=>{if(e.key=='Enter')doLogin(role)}}
+async function doLogin(role){const u=$('#lu').value,p=$('#lp').value;if(!u.trim()||!p)return login(role,'Enter username and password.');chk=role;wantRole=role;
+for(let v=1;v<=4;v++){try{await auth.signInWithEmailAndPassword(em(u,v),p);return}catch(e){if(e.code=='auth/too-many-requests'){chk=null;return login(role,'Too many tries. Wait a few minutes.')}}}
+chk=null;login(role,'Wrong username or password.')}
+function logout(){auth.signOut()}
+function myMsgs(){const m=S.msgs.filter(x=>x.to==me.u);const r=S.leads.filter(l=>l.emp==me.u&&l.remind).map(l=>({id:'r'+l.id,type:'rem',text:'Follow up with '+l.name+' ('+l.phone+')',at:new Date(l.remind).getTime()}));return {own:m,rem:r}}
+function render(){if(!me)return login('owner');const o=isO(),mm=o?{own:[],rem:[]}:myMsgs(),unread=S.msgs.filter(x=>x.to==me.u&&!x.read).length;
+const nav=[['dash','Dashboard'],...(o?[['imp','Imported leads'],['emps','Manage employees'],['set','Settings']]:Object.entries(CH).map(x=>[x[0],x[0]=='marketing'?'1. Marketing':x[0]=='offline'?'2. Manual offline':'3. Social media'])),...(o?[]:[['msgs','Messages',unread]])];
+let body='';try{body=view=='dash'?(o?ownerDash():empDash()):view=='imp'?impView():view=='emps'?empsView():view=='set'?setView():view=='msgs'?msgView():chView(view)}catch(e){body='<div class="card">Something went wrong: '+esc(e.message)+'</div>'}
+document.getElementById('app').innerHTML=`<div class="shell"><nav class="side"><div class="brand">LeadDesk<small>${o?'Owner':esc(en(me.u))}</small></div>
+${nav.map(n=>`<button class="nav ${view==n[0]?'on':''}" onclick="view='${n[0]}';F={};render()">${n[1]}${n[2]?`<span class="badge">${n[2]}</span>`:''}</button>`).join('')}<div style="flex:1"></div><button class="nav" onclick="logout()">Log out</button></nav><main class="main ${lastV!=view?'enter':''}">${body}</main></div>`;animNums()}
+var lastV;function animNums(){const first=lastV!=view;lastV=view;if(!first||matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-n]').forEach(e=>{const t=+e.dataset.n;if(!t)return;const s=performance.now();(function f(n){const p=Math.min(1,(n-s)/800);e.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s)})}
+function statCards(s){return `<div class="grid">${[['Total leads',s.t],['Closed',s.Closed],['Connected',s.Connected],['Not responding',s.NR],['Followup',s.Followup],['Revenue','₹'+s.rev.toLocaleString('en-IN')]].map(x=>`<div class="card stat"><b ${typeof x[1]=='number'?'data-n="'+x[1]+'"':''}>${x[1]}</b><span>${x[0]}</span></div>`).join('')}</div>`}
+function empDash(){const ls=filt(mine());return `<div class="top"><h1>Dashboard</h1></div>${statCards(stats(ls))}${fbar()}${table(ls)}`}
+function chView(ch){const ls=filt(mine().filter(l=>l.ch==ch),1);return `<div class="top"><h1>${CH[ch]} leads</h1><button class="btn p" onclick="editL(0,'${ch}')">Add lead</button></div>${fbar(ch)}${table(ls)}`}
+function ownerDash(){const all=S.leads,inc=all.filter(incomplete),ls=filt(all);
+return `<div class="top"><h1>Owner dashboard</h1><div><button class="btn" onclick="expL()">Export filtered leads</button> <button class="btn p" onclick="addEmp()">Add employee</button></div></div>
+<div class="bar"><span><b>${inc.length}</b> leads have no recording or no status</span><span class="sp"></span><button class="btn s" onclick="F.x='norec';render()">Show all leads without recording / status</button><button class="btn s" onclick="notifyIncomplete()">Send notification to all</button></div>
+<div class="grid">${S.emps.map(e=>{const s=stats(all.filter(l=>l.emp==e.u));return `<div class="card emp"><b>${esc(e.name)}</b><div>Total leads<i>${s.t}</i></div><div>Connected<i>${s.Connected}</i></div><div>Followup<i>${s.Followup}</i></div><div>Lost<i>${s.Lost}</i></div></div>`}).join('')||'<div class="card mu">No employees yet. Use Add employee.</div>'}</div>
+${statCards(stats(ls))}${fbar()}<div class="row" style="justify-content:flex-start;margin:0 0 10px"><button class="btn s" onclick="bulkAssign()">Assign selected leads</button></div>${table(ls)}`}
+function msgView(){const m=myMsgs();markRead();return `<div class="top"><h1>Messages</h1></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))"><div class="card"><h2>Reminders</h2>${m.rem.map(x=>`<div class="msg">${esc(x.text)}<div class="mu">${new Date(x.at).toLocaleString('en-IN')}</div></div>`).join('')||'<span class="mu">No reminders set.</span>'}</div>
+<div class="card"><h2>Owner messages</h2>${m.own.slice().reverse().map(x=>`<div class="msg">${esc(x.text)}<div class="mu">${new Date(x.at).toLocaleString('en-IN')}</div></div>`).join('')||'<span class="mu">No messages from the owner.</span>'}</div></div>`}
+function editL(id,ch){const l=id?S.leads.find(x=>x.id==id):{ch,status:'',rec:'No'};ch=l.ch;
+modal(`<h2>${id?'Update lead':'Add lead – '+CH[ch]}</h2><label>Full name *</label><input id="f_n" value="${esc(l.name)}"><label>Customer number *</label><input id="f_p" value="${esc(l.phone)}" inputmode="tel"><label>Customer email</label><input id="f_m" value="${esc(l.mail)}">
+<label>Leads from</label><select id="f_f" onchange="srcPick()">${S.src[ch].map(x=>`<option${l.from==x?' selected':''}>${esc(x)}</option>`).join('')}<option value="__c">Custom…</option></select><input id="f_cf" style="display:none;margin-top:6px" placeholder="Type new source name">
+<label>Status</label><select id="f_s" onchange="$('#f_r').style.display=this.value=='Followup'?'block':'none'"><option value="">Select status</option>${ST.map(x=>`<option${l.status==x?' selected':''}>${x}</option>`).join('')}</select>
+<div id="f_r" style="display:${l.status=='Followup'?'block':'none'}"><label>Remind me on (date and time)</label><input type="datetime-local" id="f_rd" value="${l.remind||''}"></div>
+<label>Amount received (₹, for closed leads)</label><input id="f_a" type="number" value="${l.amount||''}"><label>Comment about customer</label><textarea id="f_c" rows="3">${esc(l.comment)}</textarea>
+<label>Do you have a recording?</label><select id="f_rec" onchange="$('#f_au').style.display=this.value=='Yes'?'block':'none'"><option${l.rec!='Yes'?' selected':''}>No</option><option${l.rec=='Yes'?' selected':''}>Yes</option></select><div id="f_au" style="display:${l.rec=='Yes'?'block':'none'}"><input type="file" id="f_file" accept="audio/*">${l.audioName?`<div class="mu">Current: ${esc(l.audioName)}</div>`:''}</div>
+<div class="err" id="f_e"></div><div class="row"><button class="btn" onclick="closeM()">Cancel</button><button class="btn p" onclick="saveL(${id||0},'${ch}')">Save lead</button></div>`)}
+function srcPick(){$('#f_cf').style.display=$('#f_f').value=='__c'?'block':'none'}
+function saveL(id,ch){const g=i=>$(i).value.trim(),n=g('#f_n'),p=g('#f_p'),e=$('#f_e');
+if(!n||!p)return e.textContent='Full name and customer number are required.';
+let from=g('#f_f');if(from=='__c'){from=g('#f_cf');if(!from)return e.textContent='Type the new source name.';if(!S.src[ch].includes(from)){S.src[ch].push(from);db.collection('sources').doc(ch).set({list:S.src[ch]})}}
+const st=g('#f_s'),rem=g('#f_rd');if(st=='Followup'&&!rem)return e.textContent='Set a reminder date and time for followup.';
+const rec=g('#f_rec'),file=$('#f_file')&&$('#f_file').files[0];
+const done=a=>{let l=id?S.leads.find(x=>x.id==id):{id:gid(),ch,emp:me.u,by:me.u,at:Date.now(),imp:0,audio:'',audioName:''};
+Object.assign(l,{name:n,phone:p,mail:g('#f_m'),from,status:st,remind:st=='Followup'?rem:'',reminded:0,comment:g('#f_c'),rec,amount:+g('#f_a')||0});
+if(rec!='Yes'){l.audio='';l.audioName=''}else if(file){l.audioName=file.name;l.audio=a||''}
+fput('leads',l);closeM();toast('Lead saved')};
+if(rec=='Yes'&&file){if(file.size>6e5){done('');toast('Audio over 600 KB: only the file name was saved')}else{const r=new FileReader();r.onload=()=>done(r.result);r.readAsDataURL(file)}}else done()}
+function info(id){const l=S.leads.find(x=>x.id==id);modal(`<h2>${esc(l.name)}</h2><div class="mu">${esc(l.phone)} · ${esc(l.mail)||'no email'}</div><p>${chip(l.status)} <span class="mu">${CH[l.ch]} / ${esc(l.from)}${isO()?' · '+esc(en(l.emp)):''}</span></p>
+<label class="mu">Comment</label><div>${esc(l.comment)||'<span class="mu">No comment</span>'}</div>${l.remind?`<label class="mu">Reminder</label><div>${new Date(l.remind).toLocaleString('en-IN')}</div>`:''}${l.status=='Closed'?`<label class="mu">Revenue</label><div>₹${(+l.amount||0).toLocaleString('en-IN')}</div>`:''}
+<label class="mu">Audio recording</label>${l.audio?`<audio controls src="${l.audio}" style="width:100%"></audio>`:`<div>${l.audioName?esc(l.audioName)+' (file not stored)':'<span class="err">No recording uploaded</span>'}</div>`}<div class="row"><button class="btn" onclick="closeM()">Close</button></div>`)}
+function empPick(title,cb){window._cb=cb;modal(`<h2>${title}</h2>${S.emps.map(e=>`<button class="btn" style="display:block;width:100%;margin-bottom:6px" onclick="window._cb('${e.u}')">${esc(e.name)}</button>`).join('')||'<p class="mu">Add an employee first.</p>'}<div class="row"><button class="btn" onclick="closeM()">Cancel</button></div>`)}
+function assign(ids){empPick('Assign to which employee?',u=>{const b=db.batch();S.leads.forEach(l=>{if(ids.includes(l.id)){l.emp=u;b.update(db.collection('leads').doc(String(l.id)),{emp:u})}});b.commit().then(()=>toast('Assigned to '+en(u))).catch(e=>toast(e.message));closeM()})}
+function bulkAssign(){const ids=[...document.querySelectorAll('.ck:checked')].map(c=>+c.value);ids.length?assign(ids):toast('Tick at least one lead first')}
+function sendMsg(to,text){db.collection('msgs').add({to,text,at:Date.now(),read:0}).catch(e=>toast(e.message))}
+function notifyLead(id){const l=S.leads.find(x=>x.id==id);empPick('Send notification to which employee?',u=>{sendMsg(u,'Owner: please check and update the lead '+l.name+' ('+l.phone+').');save();closeM();toast('Notification sent to '+en(u))})}
+function notifyIncomplete(){const by={};S.leads.filter(incomplete).forEach(l=>by[l.emp]=(by[l.emp]||0)+1);
+const k=Object.keys(by).filter(u=>S.emps.find(e=>e.u==u));k.forEach(u=>sendMsg(u,'Owner: '+by[u]+' of your leads are missing a recording or status. Please fill them in.'));save();toast(k.length?'Sent to '+k.length+' employee(s)':'Every lead is complete')}
+function csv(rows){return '\ufeff'+rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\r\n')}
+function dl(name,rows){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv(rows)],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+const HEAD=['Name','Phone','Email','Channel (marketing/offline/social)','Leads From','Status','Comment','Amount','Employee username'];
+const lrow=l=>[l.name,l.phone,l.mail,l.ch,l.from,l.status,l.comment,l.amount,(S.emps.find(e=>e.u==l.emp)||{}).username||''];
+function expL(){dl('leads-export.csv',[HEAD,...filt(S.leads).map(lrow)])}
+function addEmp(){modal(`<h2>Add employee</h2><label>Employee name</label><input id="a_n"><label>Username</label><input id="a_u"><label>Password</label><input id="a_p"><div class="err" id="a_e"></div><div class="row"><button class="btn" onclick="closeM()">Cancel</button><button class="btn p" onclick="saveEmp()">Add employee</button></div>`)}
+async function saveEmp(){const n=$('#a_n').value.trim(),u=$('#a_u').value.trim().toLowerCase(),p=$('#a_p').value,e=$('#a_e');if(!n||!u||!p)return e.textContent='Fill name, username and password.';e.textContent='Adding…';
+if(!/^[a-z0-9._-]{3,30}$/.test(u))return e.textContent='Username: 3-30 letters, numbers, . _ -';if(p.length<6)return e.textContent='Password needs at least 6 characters.';
+if(S.emps.some(x=>x.username==u))return e.textContent='That username is already used.';
+try{const uid=await mkAuth(u,p);await db.collection('users').doc(uid).set({role:'emp',username:u,name:n,createdAt:Date.now()});closeM();toast(n+' added')}catch(x){e.textContent=errT(x)}}
+function empsView(){return `<div class="top"><h1>Manage employees</h1><button class="btn p" onclick="addEmp()">Add employee</button></div>${S.emps.length?`<div class="wrap"><table><tr><th>Name</th><th>Username</th><th>Leads</th><th></th></tr>${S.emps.map(e=>`<tr><td>${esc(e.name)}</td><td>${esc(e.u)}</td><td>${S.leads.filter(l=>l.emp==e.u).length}</td><td><button class="btn s" onclick="resetPw('${e.u}')">Reset password</button> <button class="btn s d" onclick="fire('${e.u}')">Fire</button></td></tr>`).join('')}</table></div>`:'<div class="card mu">No employees yet.</div>'}`}
+function resetPw(u){modal(`<h2>Reset password for ${esc(en(u))}</h2><label>Your owner password</label><input id="r_o" type="password"><label>New employee password</label><input id="r_n"><div class="err" id="r_e"></div><div class="row"><button class="btn" onclick="closeM()">Cancel</button><button class="btn p" onclick="doReset('${u}')">Reset password</button></div>`)}
+async function doReset(u){const n=$('#r_n').value,e=$('#r_e');if(n.length<6)return e.textContent='New password needs 6+ characters.';
+try{await reauth($('#r_o').value)}catch(x){return e.textContent='Owner password is wrong.'}try{const old=S.emps.find(x=>x.u==u),nu=await mkAuth(old.username,n);await db.collection('users').doc(nu).set({role:'emp',username:old.username,name:old.name,createdAt:Date.now()});await moveLeads(u,nu);await db.collection('users').doc(u).delete();closeM();toast('Password reset')}catch(x){e.textContent=errT(x)}}
+function fire(u){modal(`<h2>Are you sure you want to fire ${esc(en(u))}?</h2><p class="mu">Download their leads first. After firing, their leads become unassigned and you can assign them again.</p><div class="row" style="justify-content:flex-start"><button class="btn" onclick="dl('${u}-leads.csv',[HEAD,...S.leads.filter(l=>l.emp=='${u}').map(lrow)])">Download all leads data of this employee</button></div><div class="row"><button class="btn" onclick="closeM()">Cancel</button><button class="btn d" onclick="doFire('${u}')">Yes, fire employee</button></div>`)}
+async function doFire(u){try{await moveLeads(u,'');await db.collection('users').doc(u).delete();closeM();toast('Employee removed')}catch(x){toast(errT(x))}}
+function parseCSV(t){const r=[];let row=[],c='',q=0;t=t.replace(/^\ufeff/,'');for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=0}else c+=ch}else if(ch=='"')q=1;else if(ch==','){row.push(c);c=''}else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;row.push(c);c='';if(row.some(x=>x.trim()))r.push(row);row=[]}else c+=ch}row.push(c);if(row.some(x=>x.trim()))r.push(row);return r}
+function doImport(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{const rows=parseCSV(r.result).slice(1),now=Date.now(),L=[],add={};
+rows.forEach(x=>{if(!x[0]||!x[1])return;const ch=['marketing','offline','social'].includes((x[3]||'').trim().toLowerCase())?x[3].trim().toLowerCase():'marketing',fr=(x[4]||'').trim()||S.src[ch][0];if(!S.src[ch].includes(fr)){S.src[ch].push(fr);add[ch]=1}
+const emp=S.emps.find(e=>e.username==(x[8]||'').trim().toLowerCase());L.push({id:gid()+L.length,name:x[0].trim(),phone:x[1].trim(),mail:(x[2]||'').trim(),ch,from:fr,status:ST.includes((x[5]||'').trim())?x[5].trim():'',comment:x[6]||'',amount:+x[7]||0,emp:emp?emp.u:'',by:'owner',at:now,imp:now,rec:'No',audio:'',audioName:'',remind:''})});
+try{for(let i=0;i<L.length;i+=400){const b=db.batch();L.slice(i,i+400).forEach(l=>b.set(db.collection('leads').doc(String(l.id)),l));await b.commit()}
+Object.keys(add).forEach(c=>db.collection('sources').doc(c).set({list:S.src[c]}));await db.collection('imports').add({at:now,n:L.length});toast(L.length+' leads imported')}catch(e){toast(errT(e))}inp.value=''};r.readAsText(f)}
+function impView(){const ls=S.leads.filter(l=>l.imp&&inR(l.imp)&&(!F.e||l.emp==F.e));
+const days={};S.imports.forEach(i=>{const d=new Date(i.at).toLocaleDateString('en-IN');days[d]=(days[d]||0)+i.n});
+return `<div class="top"><h1>Imported leads</h1><div><button class="btn" onclick="dl('leads-template.csv',[HEAD,['Sample Customer','9999999999','sample@mail.com','marketing','Ads Leads','Followup','Asked for a call','0','rahul']])">Download demo file</button> <label class="btn p" style="display:inline-block;cursor:pointer">Import leads<input type="file" accept=".csv" hidden onchange="doImport(this)"></label></div></div>
+<div class="card" style="margin-bottom:12px"><h2>Import history</h2>${Object.entries(days).map(d=>`<div>${d[0]}: <b>${d[1]}</b> leads imported</div>`).join('')||'<span class="mu">Nothing imported yet. Download the demo file, fill it, then import it.</span>'}</div>
+${fbarImp()}<div class="row" style="justify-content:flex-start;margin:0 0 10px"><button class="btn s" onclick="bulkAssign()">Assign selected leads</button></div>${table(ls)}`}
+function fbarImp(){return `<div class="filters"><select onchange="setF('t',this.value)">${[['all','All dates'],['today','Imported today'],['yesterday','Yesterday'],['week','Last week'],['month','This month'],['lmonth','Last month'],['custom','Custom']].map(x=>`<option value="${x[0]}"${(F.t||'all')==x[0]?' selected':''}>${x[1]}</option>`).join('')}</select>${F.t=='custom'?`<input type="date" value="${F.cf||''}" onchange="setF('cf',this.value)"><input type="date" value="${F.ct||''}" onchange="setF('ct',this.value)">`:''}<select onchange="setF('e',this.value)"><option value="">All employees</option>${S.emps.map(e=>`<option value="${e.u}"${F.e==e.u?' selected':''}>${esc(e.name)}</option>`).join('')}</select></div>`}
+setInterval(()=>{if(!me||isO())return;const n=Date.now();let hit=0;S.leads.forEach(l=>{if(l.emp==me.u&&l.remind&&!l.reminded&&new Date(l.remind).getTime()<=n){l.reminded=1;hit++;db.collection('leads').doc(String(l.id)).update({reminded:1}).catch(()=>{});toast('Reminder: follow up with '+l.name)}});if(hit)save()},20000);
+const em=(u,v)=>u.trim().toLowerCase()+(v>1?'.v'+v:'')+'@leaddesk.app',errT=e=>String((e&&e.message)||'Something went wrong').replace(/^.*?: /,''),er=e=>toast('Sync error: '+e.message);
+function markRead(){S.msgs.filter(x=>x.to==me.u&&!x.read).forEach(x=>db.collection('msgs').doc(x.id).update({read:1}).catch(()=>{}))}
+async function reauth(pw){const u=auth.currentUser;await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,pw))}
+async function mkAuth(u,p){const sec=firebase.apps.find(a=>a.name=='sec')||firebase.initializeApp(FIREBASE_CONFIG,'sec'),sa=sec.auth();
+for(let v=1;v<=4;v++){try{const r=await sa.createUserWithEmailAndPassword(em(u,v),p);await sa.signOut();return r.user.uid}catch(x){if(x.code!='auth/email-already-in-use')throw x}}throw new Error('This username was used too many times. Choose another username.')}
+async function moveLeads(from,to){const qs=await db.collection('leads').where('emp','==',from).get();for(let i=0;i<qs.docs.length;i+=400){const b=db.batch();qs.docs.slice(i,i+400).forEach(d=>b.update(d.ref,{emp:to}));await b.commit()}}
+function stopL(){U.forEach(f=>f());U=[]}
+function startL(){const o=me.role=='owner',c=n=>db.collection(n);
+U.push(c('sources').onSnapshot(s=>{s.forEach(d=>S.src[d.id]=d.data().list||S.src[d.id]);render()},er));
+U.push((o?c('leads'):c('leads').where('emp','==',me.u)).onSnapshot(s=>{S.leads=s.docs.map(d=>d.data()).sort((a,b)=>b.at-a.at);render()},er));
+if(o){U.push(c('users').onSnapshot(s=>{S.emps=s.docs.map(d=>({u:d.id,...d.data()})).filter(x=>x.role=='emp');render()},er));U.push(c('imports').onSnapshot(s=>{S.imports=s.docs.map(d=>d.data());render()},er))}
+else U.push(c('msgs').where('to','==',me.u).onSnapshot(s=>{S.msgs=s.docs.map(d=>({...d.data(),id:d.id}));render()},er))}
+function setView(){return `<div class="top"><h1>Settings</h1></div><div class="card" style="max-width:480px"><h2>Owner password</h2><p class="mu">Login username: <b>${esc(me.username)}</b></p><label>Current password</label><input id="s_o" type="password" style="width:100%"><label style="display:block;margin-top:10px">New password</label><input id="s_p" type="password" style="width:100%"><div class="err" id="s_e" style="margin-top:6px"></div><button class="btn p" style="margin-top:12px" onclick="saveSet()">Save changes</button></div>`}
+async function saveSet(){const e=$('#s_e'),np=$('#s_p').value;if(np.length<6)return e.textContent='Password needs 6+ characters.';
+try{await reauth($('#s_o').value)}catch(x){return e.textContent='Current password is wrong.'}try{await auth.currentUser.updatePassword(np);e.textContent='';toast('Password changed')}catch(x){e.textContent=errT(x)}}
+if(!window.FIREBASE_CONFIG||/PASTE/.test(FIREBASE_CONFIG.apiKey||'PASTE')){document.getElementById('app').innerHTML='<div class="login"><h1>Setup needed</h1><p class="mu">Open firebase-config.js and paste your Firebase keys. Steps are in README.md.</p></div>'}
+else{firebase.initializeApp(FIREBASE_CONFIG);auth=firebase.auth();db=firebase.firestore();
+auth.onAuthStateChanged(async u=>{stopL();if(!u){me=null;S.leads=[];S.emps=[];S.msgs=[];S.imports=[];const f=flash;flash='';return login(wantRole,f)}
+const c=chk;chk=null;try{const d=await db.collection('users').doc(u.uid).get(),p=d.exists&&d.data();
+if(!p||(c&&p.role!=c)){flash=p?'This is not '+(c=='owner'?'an owner':'an employee')+' account.':'Account is not set up. Contact the owner.';return auth.signOut()}
+me={role:p.role,u:u.uid,name:p.name,username:p.username};view='dash';F={};startL();render()}catch(e){flash=errT(e);auth.signOut()}})}
+</script></body></html>
